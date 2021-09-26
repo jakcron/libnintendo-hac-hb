@@ -1,4 +1,3 @@
-#include <cstring>
 #include <nn/hac/AssetHeader.h>
 
 nn::hac::AssetHeader::AssetHeader()
@@ -33,24 +32,24 @@ bool nn::hac::AssetHeader::operator!=(const AssetHeader& other) const
 
 void nn::hac::AssetHeader::toBytes()
 {
-	mRawBinary.alloc(sizeof(sAssetHeader));
+	mRawBinary = tc::ByteData(sizeof(sAssetHeader));
 	nn::hac::sAssetHeader* hdr = (nn::hac::sAssetHeader*)mRawBinary.data();
 
 	// set header identifers
-	hdr->st_magic = aset::kAssetStructMagic;
-	hdr->format_version = aset::kDefaultAssetFormatVersion;
+	hdr->st_magic.wrap(aset::kAssetStructMagic);
+	hdr->format_version.wrap(aset::kDefaultAssetFormatVersion);
 
 	// set icon section
-	hdr->icon.offset = mIconInfo.offset;
-	hdr->icon.size = mIconInfo.size;
+	hdr->icon.offset.wrap(mIconInfo.offset);
+	hdr->icon.size.wrap(mIconInfo.size);
 
 	// set nacp section
-	hdr->nacp.offset = mNacpInfo.offset;
-	hdr->nacp.size = mNacpInfo.size;
+	hdr->nacp.offset.wrap(mNacpInfo.offset);
+	hdr->nacp.size.wrap(mNacpInfo.size);
 
 	// set romfs section
-	hdr->romfs.offset = mRomfsInfo.offset;
-	hdr->romfs.size = mRomfsInfo.size;
+	hdr->romfs.offset.wrap(mRomfsInfo.offset);
+	hdr->romfs.size.wrap(mRomfsInfo.size);
 }
 
 void nn::hac::AssetHeader::fromBytes(const byte_t* bytes, size_t len)
@@ -58,47 +57,47 @@ void nn::hac::AssetHeader::fromBytes(const byte_t* bytes, size_t len)
 	// check input data size
 	if (len < sizeof(sAssetHeader))
 	{
-		throw fnd::Exception(kModuleName, "ASET header size is too small");
+		throw tc::ArgumentOutOfRangeException(kModuleName, "ASET header size is too small");
 	}
 
 	// clear internal members
 	clear();
 
 	// allocate internal local binary copy
-	mRawBinary.alloc(sizeof(sAssetHeader));
+	mRawBinary = tc::ByteData(sizeof(sAssetHeader));
 	memcpy(mRawBinary.data(), bytes, mRawBinary.size());
 
 	// get sAssetHeader ptr
 	const nn::hac::sAssetHeader* hdr = (const nn::hac::sAssetHeader*)mRawBinary.data();
 	
 	// check NRO signature
-	if (hdr->st_magic.get() != aset::kAssetStructMagic)
+	if (hdr->st_magic.unwrap() != aset::kAssetStructMagic)
 	{
-		throw fnd::Exception(kModuleName, "ASET header corrupt (unrecognised header signature)");
+		throw tc::ArgumentOutOfRangeException(kModuleName, "ASET header corrupt (unrecognised header signature)");
 	}
 
 	// check NRO format version
-	if (hdr->format_version.get() != aset::kDefaultAssetFormatVersion)
+	if (hdr->format_version.unwrap() != aset::kDefaultAssetFormatVersion)
 	{
-		throw fnd::Exception(kModuleName, "ASET header corrupt (unsupported format version)");
+		throw tc::ArgumentOutOfRangeException(kModuleName, "ASET header corrupt (unsupported format version)");
 	}
 
-	mIconInfo.offset = hdr->icon.offset.get();
-	mIconInfo.size = hdr->icon.size.get();
-	mNacpInfo.offset = hdr->nacp.offset.get();
-	mNacpInfo.size = hdr->nacp.size.get();
-	mRomfsInfo.offset = hdr->romfs.offset.get();
-	mRomfsInfo.size = hdr->romfs.size.get();
+	mIconInfo.offset = hdr->icon.offset.unwrap();
+	mIconInfo.size = hdr->icon.size.unwrap();
+	mNacpInfo.offset = hdr->nacp.offset.unwrap();
+	mNacpInfo.size = hdr->nacp.size.unwrap();
+	mRomfsInfo.offset = hdr->romfs.offset.unwrap();
+	mRomfsInfo.size = hdr->romfs.size.unwrap();
 }
 
-const fnd::Vec<byte_t>& nn::hac::AssetHeader::getBytes() const
+const tc::ByteData& nn::hac::AssetHeader::getBytes() const
 {
 	return mRawBinary;
 }
 
 void nn::hac::AssetHeader::clear()
 {
-	mRawBinary.clear();
+	mRawBinary = tc::ByteData();
 	memset(&mIconInfo, 0, sizeof(mIconInfo));
 	memset(&mNacpInfo, 0, sizeof(mNacpInfo));
 	memset(&mRomfsInfo, 0, sizeof(mRomfsInfo));

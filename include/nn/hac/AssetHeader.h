@@ -1,14 +1,11 @@
 #pragma once
 #include <nn/hac/define/aset.h>
-#include <fnd/List.h>
-#include <fnd/IByteModel.h>
 
 namespace nn
 {
 namespace hac
 {
-	class AssetHeader : 
-		public fnd::IByteModel
+	class AssetHeader
 	{
 	public:
 		struct sSection
@@ -44,7 +41,7 @@ namespace hac
 		// IByteModel
 		void toBytes();
 		void fromBytes(const byte_t* bytes, size_t len);
-		const fnd::Vec<byte_t>& getBytes() const;
+		const tc::ByteData& getBytes() const;
 
 		// variables
 		void clear();
@@ -61,7 +58,7 @@ namespace hac
 		const std::string kModuleName = "NRO_ASSET_HEADER";
 
 		// binary
-		fnd::Vec<byte_t> mRawBinary;
+		tc::ByteData mRawBinary;
 
 		// data
 		sSection mIconInfo;
