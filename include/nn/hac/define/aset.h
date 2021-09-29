@@ -15,8 +15,8 @@ namespace hac
 #pragma pack(push,1)
 	struct sAssetSection
 	{
-		tc::bn::le64<uint64_t> offset;
-		tc::bn::le64<uint64_t> size;
+		tc::bn::le64<int64_t> offset;
+		tc::bn::le64<int64_t> size;
 	};
 
 	struct sAssetHeader

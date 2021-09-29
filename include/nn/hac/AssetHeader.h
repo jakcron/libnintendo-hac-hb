@@ -10,8 +10,8 @@ namespace hac
 	public:
 		struct sSection
 		{
-			uint64_t offset;
-			uint64_t size;
+			int64_t offset;
+			int64_t size;
 
 			void operator=(const sSection& other)
 			{
