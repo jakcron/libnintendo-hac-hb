@@ -1,6 +1,3 @@
-[submodule "deps/libfnd"]
-	path = deps/libfnd
-	url = https://github.com/jakcron/libfnd.git
 [submodule "deps/libnintendo-hac"]
 	path = deps/libnintendo-hac
 	url = https://github.com/jakcron/libnintendo-hac.git
