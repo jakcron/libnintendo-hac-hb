@@ -98,9 +98,9 @@ const tc::ByteData& nn::hac::AssetHeader::getBytes() const
 void nn::hac::AssetHeader::clear()
 {
 	mRawBinary = tc::ByteData();
-	memset(&mIconInfo, 0, sizeof(mIconInfo));
-	memset(&mNacpInfo, 0, sizeof(mNacpInfo));
-	memset(&mRomfsInfo, 0, sizeof(mRomfsInfo));
+	mIconInfo = sSection();
+	mNacpInfo = sSection();
+	mRomfsInfo = sSection();
 }
 
 const nn::hac::AssetHeader::sSection& nn::hac::AssetHeader::getIconInfo() const

@@ -13,6 +13,11 @@ namespace hac
 			int64_t offset;
 			int64_t size;
 
+			sSection() :
+				offset(0),
+				size(0)
+			{}
+
 			void operator=(const sSection& other)
 			{
 				offset = other.offset;
