@@ -31,8 +31,8 @@ PROJECT_SONAME = $(PROJECT_NAME).so.$(PROJECT_SO_VER_MAJOR)
 PROJECT_SO_FILENAME = $(PROJECT_SONAME).$(PROJECT_SO_VER_MINOR).$(PROJECT_SO_VER_PATCH)
 
 # Project Dependencies
-PROJECT_DEPEND =  nintendo-hac toolchain mbedtls
-PROJECT_DEPEND_LOCAL_DIR = libnintendo-hac libtoolchain libmbedtls
+PROJECT_DEPEND =  nintendo-hac toolchain fmt mbedtls
+PROJECT_DEPEND_LOCAL_DIR = libnintendo-hac libtoolchain libfmt libmbedtls
 
 # Generate compiler flags for including project include path
 ifneq ($(PROJECT_INCLUDE_PATH),)
